@@ -1,3 +1,4 @@
+//Rodrigo Serdotte Freitas
 using System;
 
 class Program
@@ -7,7 +8,7 @@ class Program
         Console.Write("What is your grade percentage? ");
         string answer = Console.ReadLine();
 
-        //verifia se a entrada é um número valido
+        //verify if the input is a number
         if (!int.TryParse(answer, out int grade))
         {
             Console.WriteLine("Invalid input. Please enter a valid number.");
@@ -39,7 +40,7 @@ class Program
 
         string signal = "";
 
-        //evita aplicar sinais para nota 'F'
+        //void applying signs for grade 'F'
         if (grade >= 60)
         {
             int remainder = grade % 10;
