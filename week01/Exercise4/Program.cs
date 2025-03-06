@@ -10,10 +10,10 @@ class Program
         int number = -1;
         while (number != 0)
         {
+            Console.Write("Enter a number: ");
             number = int.Parse(Console.ReadLine());
             if (number != 0)
             {
-                
                 numbers.Add(number);
             }
         }
@@ -35,8 +35,35 @@ class Program
             }
         }
 
+        int? smallestPositive = null;
+        foreach (int n in numbers)
+        {
+            if (n > 0 && (smallestPositive == null || n < smallestPositive))
+            {
+                smallestPositive = n;
+            }
+        }
+
+        // Sort the list
+        numbers.Sort();
+
         Console.WriteLine($"The sum is: {sum}.");
-        Console.WriteLine($"The average is: {average}.");
+        Console.WriteLine($"The average is: {average:F3}.");  
         Console.WriteLine($"The largest number is: {largest}.");
+        if (smallestPositive.HasValue)
+        {
+            Console.WriteLine($"The smallest positive number is: {smallestPositive}.");
+        }
+        else
+        {
+            Console.WriteLine("There are no positive numbers in the list.");
+        }
+
+        //Display the sorted list 
+        Console.WriteLine("The sorted list is:");
+        foreach (int n in numbers)
+        {
+            Console.WriteLine(n);
+        }
     }
 }
