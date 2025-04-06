@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class ListingActivity : Activity
 {
+    private static int _timesCompleted = 0;
+
     private List<string> _prompts = new List<string>
     {
         "Who are people that you appreciate?",
@@ -25,7 +27,7 @@ public class ListingActivity : Activity
         ShowSpinner(5); // Pause for 5 seconds
 
         Console.WriteLine("You may begin now:");
-        int duration = GetDuration(); // Get the duration specified by the user
+        int duration = GetDuration();
         int elapsed = 0;
         int count = 0;
         DateTime startTime = DateTime.Now;
@@ -33,11 +35,21 @@ public class ListingActivity : Activity
         while (elapsed < duration)
         {
             Console.Write("> ");
-            Console.ReadLine(); // Read user input
+            Console.ReadLine();
             count++;
-            elapsed = (int)(DateTime.Now - startTime).TotalSeconds; // Update elapsed time
+            elapsed = (int)(DateTime.Now - startTime).TotalSeconds;
         }
 
         Console.WriteLine($"You listed {count} items!");
+    }
+
+    protected override void IncrementTimesCompleted()
+    {
+        _timesCompleted++;
+    }
+
+    public static int GetTimesCompleted()
+    {
+        return _timesCompleted;
     }
 }

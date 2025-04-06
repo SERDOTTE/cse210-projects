@@ -27,14 +27,20 @@ public abstract class Activity
         Console.Clear();
         Console.WriteLine("Get ready to begin...");
         Console.WriteLine();
-        Console.WriteLine();
         ShowSpinner(3); // Pause for 3 seconds with a spinner
         PerformActivity();
+        IncrementTimesCompleted(); // Increment the counter
         End();
     }
 
     // Abstract method to be implemented by derived classes
     protected abstract void PerformActivity();
+
+    // Virtual method to increment times completed, to be overridden in derived classes
+    protected virtual void IncrementTimesCompleted()
+    {
+        // This will be overridden in derived classes
+    }
 
     // Method to end the activity
     private void End()
@@ -53,6 +59,7 @@ public abstract class Activity
             Console.Write("/");
             Thread.Sleep(250);
             Console.Write("\b-");
+            Thread.Sleep(250);
             Console.Write("\b\\");
             Thread.Sleep(250);
             Console.Write("\b|");

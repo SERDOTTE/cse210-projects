@@ -2,6 +2,8 @@ using System;
 
 public class GratitudeActivity : Activity
 {
+    private static int _timesCompleted = 0;
+
     private List<string> _prompts = new List<string>
     {
         "What are three things you are grateful for today?",
@@ -21,10 +23,10 @@ public class GratitudeActivity : Activity
         Random random = new Random();
         Console.WriteLine("Take a moment to reflect on the following prompt:");
         Console.WriteLine($"--- {_prompts[random.Next(_prompts.Count)]} ---");
-        ShowSpinner(5); // Pause for 5 seconds to let the user reflect
+        ShowSpinner(5);
 
         Console.WriteLine("Now, write down your thoughts:");
-        int duration = GetDuration(); // Get the duration specified by the user
+        int duration = GetDuration();
         int elapsed = 0;
         int count = 0;
         DateTime startTime = DateTime.Now;
@@ -32,11 +34,21 @@ public class GratitudeActivity : Activity
         while (elapsed < duration)
         {
             Console.Write("> ");
-            Console.ReadLine(); // Read user input
+            Console.ReadLine();
             count++;
-            elapsed = (int)(DateTime.Now - startTime).TotalSeconds; // Update elapsed time
+            elapsed = (int)(DateTime.Now - startTime).TotalSeconds;
         }
 
-        Console.WriteLine($"Thank you for reflecting on gratitude!. You listad {count} items!");
+        Console.WriteLine($"Thank you for reflecting on gratitude! You listed {count} items!");
+    }
+
+    protected override void IncrementTimesCompleted()
+    {
+        _timesCompleted++;
+    }
+
+    public static int GetTimesCompleted()
+    {
+        return _timesCompleted;
     }
 }

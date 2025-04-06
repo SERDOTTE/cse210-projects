@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class ReflectionActivity : Activity
 {
+    private static int _timesCompleted = 0; // Static counter for this activity
+
     private List<string> _prompts = new List<string>
     {
         "Think of a time when you stood up for someone else.",
@@ -24,7 +26,7 @@ public class ReflectionActivity : Activity
     };
 
     public ReflectionActivity()
-        : base("Reflection", "This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize the power you have and how you can use it in other aspects of your life.")
+        : base("Reflection", "This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize your power and how you can use it in other aspects of your life.")
     {
     }
 
@@ -32,9 +34,7 @@ public class ReflectionActivity : Activity
     {
         Random random = new Random();
         Console.WriteLine("Consider the following prompt:");
-        Console.WriteLine();
-        Console.WriteLine($"--- {_prompts[random.Next(_prompts.Count)]} ---");
-        Console.WriteLine();
+        Console.WriteLine($"--- Think of a time when you accomplished something difficult ---");
         Console.WriteLine("When you have something in mind, press enter to continue.");
         Console.ReadLine();
 
@@ -43,9 +43,19 @@ public class ReflectionActivity : Activity
 
         while (elapsed < duration)
         {
-            Console.WriteLine(_questions[random.Next(_questions.Count)]);
-            ShowSpinner(10); // Pause for 5 seconds
-            elapsed += 10;
+            Console.WriteLine("Why was this experience meaningful to you?");
+            ShowSpinner(5);
+            elapsed += 5;
         }
+    }
+
+    protected override void IncrementTimesCompleted()
+    {
+        _timesCompleted++;
+    }
+
+    public static int GetTimesCompleted()
+    {
+        return _timesCompleted;
     }
 }

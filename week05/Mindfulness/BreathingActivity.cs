@@ -3,6 +3,8 @@ using System.Threading;
 
 public class BreathingActivity : Activity
 {
+    private static int _timesCompleted = 0; // Static counter for this activity
+
     public BreathingActivity()
         : base("Breathing", "This activity will help you relax by guiding you through slow breathing. Clear your mind and focus on your breathing.")
     {
@@ -22,6 +24,17 @@ public class BreathingActivity : Activity
             Console.WriteLine();
             elapsed += 10; // Each cycle takes 10 seconds
         }
+    }
+
+    protected override void IncrementTimesCompleted()
+    {
+        _timesCompleted++;
+    }
+
+    // Method to get the number of times this activity was completed
+    public static int GetTimesCompleted()
+    {
+        return _timesCompleted;
     }
 
     private void ShowCountdown(int seconds)
