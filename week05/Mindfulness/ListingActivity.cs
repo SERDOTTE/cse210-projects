@@ -14,6 +14,8 @@ public class ListingActivity : Activity
         "Who are some of your personal heroes?"
     };
 
+    private List<string> _usedPrompts = new List<string>(); // Tracks used prompts in the session
+
     public ListingActivity()
         : base("Listing", "This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.")
     {
@@ -22,8 +24,9 @@ public class ListingActivity : Activity
     protected override void PerformActivity()
     {
         Random random = new Random();
+        string prompt = GetNextPrompt(random);
         Console.WriteLine("List as many responses as you can to the following prompt:");
-        Console.WriteLine($"--- {_prompts[random.Next(_prompts.Count)]} ---");
+        Console.WriteLine($"--- {prompt} ---");
         ShowSpinner(5); // Pause for 5 seconds
 
         Console.WriteLine("You may begin now:");
@@ -41,6 +44,25 @@ public class ListingActivity : Activity
         }
 
         Console.WriteLine($"You listed {count} items!");
+    }
+
+    private string GetNextPrompt(Random random)
+    {
+        // If all prompts have been used, reset the list
+        if (_usedPrompts.Count == _prompts.Count)
+        {
+            _usedPrompts.Clear();
+        }
+
+        // Select a prompt that hasn't been used yet
+        string prompt;
+        do
+        {
+            prompt = _prompts[random.Next(_prompts.Count)];
+        } while (_usedPrompts.Contains(prompt));
+
+        _usedPrompts.Add(prompt); // Mark the prompt as used
+        return prompt;
     }
 
     protected override void IncrementTimesCompleted()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class ReflectionActivity : Activity
 {
-    private static int _timesCompleted = 0; // Static counter for this activity
+    private static int _timesCompleted = 0;
 
     private List<string> _prompts = new List<string>
     {
@@ -25,6 +25,8 @@ public class ReflectionActivity : Activity
         "> How can you keep this experience in mind in the future?"
     };
 
+    private List<string> _usedQuestions = new List<string>(); // Tracks used questions in the session
+
     public ReflectionActivity()
         : base("Reflection", "This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize your power and how you can use it in other aspects of your life.")
     {
@@ -34,7 +36,7 @@ public class ReflectionActivity : Activity
     {
         Random random = new Random();
         Console.WriteLine("Consider the following prompt:");
-        Console.WriteLine($"--- Think of a time when you accomplished something difficult ---");
+        Console.WriteLine($"--- {_prompts[random.Next(_prompts.Count)]} ---");
         Console.WriteLine("When you have something in mind, press enter to continue.");
         Console.ReadLine();
 
@@ -43,10 +45,30 @@ public class ReflectionActivity : Activity
 
         while (elapsed < duration)
         {
-            Console.WriteLine("Why was this experience meaningful to you?");
+            string question = GetNextQuestion(random);
+            Console.WriteLine(question);
             ShowSpinner(5);
             elapsed += 5;
         }
+    }
+
+    private string GetNextQuestion(Random random)
+    {
+        // If all questions have been used, reset the list
+        if (_usedQuestions.Count == _questions.Count)
+        {
+            _usedQuestions.Clear();
+        }
+
+        // Select a question that hasn't been used yet
+        string question;
+        do
+        {
+            question = _questions[random.Next(_questions.Count)];
+        } while (_usedQuestions.Contains(question));
+
+        _usedQuestions.Add(question); // Mark the question as used
+        return question;
     }
 
     protected override void IncrementTimesCompleted()
