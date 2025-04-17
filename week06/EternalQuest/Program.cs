@@ -10,6 +10,10 @@ class Program
         while (true)
         {
             Console.Clear();
+
+            // Display total points
+            Console.WriteLine($"You have {goalManager.GetTotalPoints()} points.\n");
+
             Console.WriteLine("Menu Options:");
             Console.WriteLine("1. Create New Goal");
             Console.WriteLine("2. List Goals");
@@ -26,7 +30,7 @@ class Program
                 Console.WriteLine("1. Simple Goal");
                 Console.WriteLine("2. Eternal Goal");
                 Console.WriteLine("3. Checklist Goal");
-                Console.Write("Wich type of goal would you like to create? ");
+                Console.Write("Which type of goal would you like to create? ");
                 string goalType = Console.ReadLine();
 
                 Console.Write("What is the name of your goal? ");
@@ -61,8 +65,15 @@ class Program
             }
             else if (choice == "3")
             {
-                Console.Write("Enter the filename to save goals: ");
+                Console.Write("Enter the filename to save goals (e.g., goals.txt): ");
                 string filename = Console.ReadLine();
+
+                // Ensure the filename ends with .txt
+                if (!filename.EndsWith(".txt"))
+                {
+                    filename += ".txt";
+                }
+
                 goalManager.SaveGoals(filename);
                 Console.WriteLine("Goals saved successfully. Press Enter to return to the menu.");
                 Console.ReadLine();

@@ -46,34 +46,47 @@ public class GoalManager
         Console.WriteLine($"Total Points: {_totalPoints}");
     }
 
+    public int GetTotalPoints()
+    {
+        return _totalPoints;
+    }
+
     // Method to save goals to a file
     public void SaveGoals(string filename)
     {
-        using (StreamWriter writer = new StreamWriter(filename))
+        try
         {
-            writer.WriteLine(_totalPoints); // Save total points
-            foreach (Goal goal in _goals)
+            using (StreamWriter writer = new StreamWriter(filename))
             {
-                writer.WriteLine(goal.GetType().Name); // Save goal type
-                writer.WriteLine(goal.Name);
-                writer.WriteLine(goal.Description);
-                writer.WriteLine(goal.Points);
+                writer.WriteLine(_totalPoints); // Save total points
+                foreach (Goal goal in _goals)
+                {
+                    writer.WriteLine(goal.GetType().Name); // Save goal type
+                    writer.WriteLine(goal.Name);
+                    writer.WriteLine(goal.Description);
+                    writer.WriteLine(goal.Points);
 
-                if (goal is ChecklistGoal checklistGoal)
-                {
-                    writer.WriteLine(checklistGoal.TargetCount);
-                    writer.WriteLine(checklistGoal.CurrentCount);
-                    writer.WriteLine(checklistGoal.BonusPoints);
-                }
-                else if (goal is EternalGoal eternalGoal)
-                {
-                    writer.WriteLine(eternalGoal.TimesCompleted);
-                }
-                else if (goal is SimpleGoal simpleGoal)
-                {
-                    writer.WriteLine(simpleGoal.IsComplete());
+                    if (goal is ChecklistGoal checklistGoal)
+                    {
+                        writer.WriteLine(checklistGoal.TargetCount);
+                        writer.WriteLine(checklistGoal.CurrentCount);
+                        writer.WriteLine(checklistGoal.BonusPoints);
+                    }
+                    else if (goal is EternalGoal eternalGoal)
+                    {
+                        writer.WriteLine(eternalGoal.TimesCompleted);
+                    }
+                    else if (goal is SimpleGoal simpleGoal)
+                    {
+                        writer.WriteLine(simpleGoal.IsComplete());
+                    }
                 }
             }
+            Console.WriteLine($"Goals successfully saved to {filename}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred while saving goals: {ex.Message}");
         }
     }
 
